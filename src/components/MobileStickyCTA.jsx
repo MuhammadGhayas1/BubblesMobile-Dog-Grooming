@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Phone, Calendar } from 'lucide-react';
 import { businessInfo } from '../data/business';
+import { useBooking } from '../booking/BookingContext';
 
 export function MobileStickyCTA() {
+  const { openBooking } = useBooking();
+
   return (
     <div className="mobile-sticky-bar">
       <a
@@ -14,14 +16,15 @@ export function MobileStickyCTA() {
         <Phone size={16} />
         <span>Call Us</span>
       </a>
-      <Link
-        to="/booking"
+      <button
+        type="button"
         className="btn btn-primary"
+        onClick={() => openBooking()}
         style={{ padding: '10px 14px' }}
       >
         <Calendar className="btn-icon" />
         <span>Book Groom</span>
-      </Link>
+      </button>
     </div>
   );
 }

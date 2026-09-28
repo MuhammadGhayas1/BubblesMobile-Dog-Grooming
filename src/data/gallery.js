@@ -57,7 +57,7 @@ export const galleryItems = [
 
 export const beforeAfterShowcase = {
   title: "Cavoodle full groom transformation",
-  breed: "Cavoodle · Didsbury M20",
+  breed: "Cavoodle, Didsbury M20",
   description: "Overgrown scruffy winter coat transformed into a neat, bouncy clip.",
   beforeImage: "/before.png",
   afterImage: "/after.png",

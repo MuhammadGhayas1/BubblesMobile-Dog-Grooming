@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Award, ShieldCheck, Heart, MapPin, Truck, CheckCircle2, Calendar } from 'lucide-react';
+import { StarRating } from '../components/RatingIcons';
 import { businessInfo } from '../data/business';
-
-const whatsappLink = `https://wa.me/${businessInfo.phone.replace(/\D/g, '')}`;
+import { useBooking } from '../booking/BookingContext';
 
 export function AboutPage() {
   const location = useLocation();
+  const { openBooking } = useBooking();
 
   useEffect(() => {
     if (location.hash === '#how-it-works') {
@@ -25,7 +26,7 @@ export function AboutPage() {
           <div className="badge badge-sage" style={{ marginBottom: '12px' }}>
             <span>ABOUT BUBBLES MOBILE GROOMING</span>
           </div>
-          <h1>Calm, convenient grooming in Manchester</h1>
+          <h1>Treat your dog to a stress-free spa day right outside your front door</h1>
           <p>
             Dedicated to providing individual, stress-free care right outside your front door.
           </p>
@@ -39,12 +40,29 @@ export function AboutPage() {
                 src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?auto=format&fit=crop&w=800&q=80"
                 alt="Sarah, founder of Bubbles Mobile Dog Grooming"
               />
+
+              {/* Trust badges directly under photo */}
+              <div className="photo-trust-badges">
+                <div className="trust-badge-item">
+                  <Heart size={16} className="trust-icon" />
+                  <span>100+ Happy Pups Cleaned</span>
+                </div>
+                <div className="trust-badge-item">
+                  <StarRating rating={businessInfo.rating} size={13} className="trust-icon" />
+                  <span>Rated in Manchester</span>
+                </div>
+                <div className="trust-badge-item">
+                  <ShieldCheck size={16} className="trust-icon" />
+                  <span>Certified & Insured</span>
+                </div>
+              </div>
             </div>
+
             <div>
               <div className="badge badge-sage" style={{ marginBottom: '12px' }}>
                 <span>FOUNDER AND LEAD GROOMER</span>
               </div>
-              <h2>{businessInfo.groomer.name}</h2>
+              <h2>Hi, I'm Sarah!</h2>
               <p style={{ fontWeight: 700, color: 'var(--color-sage)', fontSize: '1.05rem', marginBottom: '16px' }}>
                 {businessInfo.groomer.role}
               </p>
@@ -53,7 +71,7 @@ export function AboutPage() {
                 "{businessInfo.groomer.bio}"
               </div>
 
-              <p style={{ marginBottom: '24px', color: 'var(--color-text-muted)' }}>
+              <p style={{ marginBottom: '24px', color: 'var(--color-text-muted)', marginTop: '16px' }}>
                 Traditional salons can often be overwhelming with loud hair dryers, multiple barking dogs, and long waiting times in cages. Bubbles was built to change that by delivering one-to-one care in a warm, clean, fully customized mobile grooming unit.
               </p>
 
@@ -82,20 +100,20 @@ export function AboutPage() {
           <div className="steps-grid">
             <div className="step-card">
               <div className="step-number">01</div>
-              <h3 className="step-title">Message us on WhatsApp</h3>
-              <p style={{ fontSize: '0.92rem' }}>Tell us your dog's breed, size, and any worries. We will suggest the best package and find a time that works.</p>
+              <h3 className="step-title">Select your package & time</h3>
+              <p style={{ fontSize: '0.92rem' }}>Pick your dog's size, package, and preferred time slot using our instant interactive booking tool.</p>
             </div>
 
             <div className="step-card">
               <div className="step-number">02</div>
-              <h3 className="step-title">We come to you</h3>
-              <p style={{ fontSize: '0.92rem' }}>Our fully equipped van pulls up outside your home. No car rides, no kennels, no anxious waiting.</p>
+              <h3 className="step-title">We pull up to your door</h3>
+              <p style={{ fontSize: '0.92rem' }}>Our fully equipped mobile unit arrives outside your home in Manchester. No car rides or cages.</p>
             </div>
 
             <div className="step-card">
               <div className="step-number">03</div>
-              <h3 className="step-title">One-to-one grooming</h3>
-              <p style={{ fontSize: '0.92rem' }}>Just your dog and our groomer. Calm, patient, and focused. You get a text when we are done.</p>
+              <h3 className="step-title">1-on-1 Gentle Grooming</h3>
+              <p style={{ fontSize: '0.92rem' }}>Just your dog and Sarah. Patient, calm, and focused. You get a text when your pup is fresh and ready.</p>
             </div>
           </div>
         </div>
@@ -124,10 +142,14 @@ export function AboutPage() {
               <span>WA1 to WA15</span>
             </span>
           </div>
-          <Link to="/booking" className="btn btn-primary">
+          <button
+            type="button"
+            onClick={() => openBooking()}
+            className="btn btn-primary"
+          >
             <Calendar className="btn-icon" />
             <span>Check Availability and Book</span>
-          </Link>
+          </button>
         </div>
       </div>
     </div>

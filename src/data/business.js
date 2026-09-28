@@ -1,6 +1,6 @@
 export const businessInfo = {
   name: "Bubbles",
-  tagline: "Mobile Dog Grooming • Manchester",
+  tagline: "Mobile Dog Grooming in Manchester",
   subTagline: "Stress-free mobile grooming at your door in Manchester",
   category: "Mobile Dog Grooming",
   location: "Manchester",
@@ -9,6 +9,8 @@ export const businessInfo = {
   formattedPhone: "+44 7700 900123",
   email: "hello@bubblesmobilegrooming.co.uk",
   socialHandle: "@bubblesmobile",
+  rating: 5,
+  ratingCount: 128,
   hours: [
     { day: "Monday", time: "9:00 - 17:00" },
     { day: "Tuesday", time: "9:00 - 18:00" },
@@ -65,8 +67,14 @@ export const businessInfo = {
   groomer: {
     name: "Sarah",
     role: "Founder and lead groomer",
-    bio: "I've been grooming dogs for 7 years, starting after my own rescue Spaniel had a traumatic salon experience. I knew there had to be a better way. So I trained, got insured, bought a van, and started Bubbles. I specialise in nervous and elderly dogs. Patience isn't a bonus, it's the whole point. DBS checked, fully insured, and genuinely obsessed with making dogs feel safe.",
+    bio: "Hi, I'm Sarah! As a lifelong dog lover and certified groomer, I started mobile grooming so your pup never has to experience crate anxiety or stressful car rides again. I specialise in nervous and elderly dogs — patience isn't a bonus, it's the whole point.",
     details: "",
-    credentials: ["DBS checked", "Fully insured", "7+ years experience"]
+    credentials: ["DBS checked", "Fully insured", "7+ years experience"],
+    trustBadges: [
+      "100+ Happy Pups Cleaned",
+      "Rated in Manchester",
+      "Certified & Insured"
+    ]
   }
 };
+

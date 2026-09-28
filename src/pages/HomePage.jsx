@@ -4,8 +4,14 @@ import {
   MessageCircle,
   Calendar,
   Truck,
-  User
+  User,
+  ShieldCheck,
+  MapPin,
+  Sparkles,
+  Heart,
+  CheckCircle2
 } from 'lucide-react';
+import { StarRating } from '../components/RatingIcons';
 import {
   SketchPaw,
   SketchCheck,
@@ -19,76 +25,79 @@ import { galleryItems } from '../data/gallery';
 import { BeforeAfterSlider } from '../components/BeforeAfterSlider';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { businessInfo } from '../data/business';
+import { useBooking } from '../booking/BookingContext';
 
 const whatsappLink = `https://wa.me/${businessInfo.phone.replace(/\D/g, '')}`;
 
 const howItWorksSteps = [
   {
     n: '01',
-    title: "Message us on WhatsApp",
-    text: "Tell us your dog's breed, size, and any worries. We'll suggest the best package.",
-    icon: MessageCircle
+    title: "Select your service & date",
+    text: "Tell us about your dog and pick a date & time slot that fits your schedule in seconds.",
+    icon: Calendar
   },
   {
     n: '02',
-    title: "We come to you",
-    text: "Our fully equipped van pulls up outside your home. No car rides, no kennels, no anxious waiting.",
+    title: "We pull up to your door",
+    text: "Our fully equipped mobile spa arrives right outside your house in Manchester. Zero car rides or crates.",
     icon: Truck
   },
   {
     n: '03',
-    title: "One-to-one grooming",
-    text: "Just your dog and our groomer. Calm, patient, and focused. You get a text when we're done.",
-    icon: User
+    title: "Gentle 1-on-1 pampering",
+    text: "Just your dog and Sarah. Gentle hydrobath, calming blow-dry, coat styling & treats galore.",
+    icon: Heart
   }
 ];
 
 const pricingSizes = [
   {
     id: "small",
-    label: "Small dogs (<25lbs)",
+    label: "Small dogs (<15 lbs)",
     icon: SketchPaw,
     color: "var(--color-sage)",
     services: [
-      { name: "Bath and brush", price: "£30" },
-      { name: "Full groom", price: "£45" },
-      { name: "Puppy first groom", price: "£35" }
+      { name: "Bath & Brush", price: "£30" },
+      { name: "Full Groom", price: "£45" },
+      { name: "Puppy's First Pamper", price: "£35" }
     ],
     cta: "Book Small Dog Groom"
   },
   {
     id: "medium",
-    label: "Medium dogs (25-50lbs)",
+    label: "Medium dogs (15-40 lbs)",
     icon: SketchStar,
     color: "var(--color-terracotta)",
     services: [
-      { name: "Bath and brush", price: "£35" },
-      { name: "Full groom", price: "£55" },
-      { name: "De-shedding", price: "+£15" }
+      { name: "Bath & Brush", price: "£35" },
+      { name: "Full Groom", price: "£55" },
+      { name: "De-shedding Treatment", price: "+£15" }
     ],
     cta: "Book Medium Dog Groom"
   },
   {
     id: "large",
-    label: "Large dogs (50-80lbs)",
+    label: "Large & XL dogs (40+ lbs)",
     icon: SketchVan,
     color: "var(--color-gold)",
     services: [
-      { name: "Bath and brush", price: "£40" },
-      { name: "Full groom", price: "£65" },
-      { name: "Nail grind and teeth", price: "+£18" }
+      { name: "Bath & Brush", price: "£40+" },
+      { name: "Full Groom", price: "£65+" },
+      { name: "Nail Grinding & Teeth", price: "+£20" }
     ],
     cta: "Book Large Dog Groom"
   }
 ];
 
 const addons = [
-  { name: "Nail clip", price: "£8" },
-  { name: "Teeth brush", price: "£10" },
-  { name: "Ear clean", price: "£7" }
+  { name: "De-shedding Treatment", price: "£15" },
+  { name: "Nail Grinding", price: "£10" },
+  { name: "Teeth Brushing", price: "£10" }
 ];
 
 export function HomePage() {
+  const { openBooking } = useBooking();
+
   const heroQuote = {
     quote: "Sarah was incredible with our anxious rescue terrier. She took her time, didn't rush, and he actually wagged his tail when she arrived. Best groomer we've ever used.",
     dogName: "Emma T.",
@@ -106,7 +115,7 @@ export function HomePage() {
     },
     {
       id: "priya",
-      quote: "Transparent pricing, no faff. Messaged on WhatsApp, got a quote in 10 minutes, booked for Saturday. My Cavoodle has never looked better.",
+      quote: "Transparent pricing, no faff. Booked online in 2 minutes, got a text before arrival. My Cavoodle has never looked or smelled better.",
       dogName: "Priya K.",
       breed: "Cavoodle",
       area: "M14"
@@ -120,26 +129,49 @@ export function HomePage() {
         <div className="container">
           <div className="hero-grid">
             <div className="hero-content">
+              <div className="badge badge-sage" style={{ marginBottom: '14px' }}>
+                <Sparkles size={14} />
+                <span>Manchester's Warmest Mobile Dog Spa</span>
+              </div>
               <h1 className="hero-headline">
-                Stress-free mobile grooming{' '}
+                Treat your dog to a stress-free spa day{' '}
                 <span style={{ color: 'var(--color-sage)' }}>
-                  at your door in Manchester
+                  right outside your front door
                 </span>
               </h1>
 
-              <p className="hero-subhead">
-                5 star rated. DBS checked. Serving M1 through M21 and surrounding areas.
-              </p>
+              <ul className="hero-trust-list">
+                <li>
+                  <StarRating rating={businessInfo.rating} size={15} className="hero-trust-icon" />
+                  <span>Rated {businessInfo.rating}.0 by Manchester dog owners</span>
+                </li>
+                <li>
+                  <ShieldCheck size={15} className="hero-trust-icon" />
+                  <span>DBS Checked &amp; Insured</span>
+                </li>
+                <li>
+                  <MapPin size={15} className="hero-trust-icon" />
+                  <span>Serving M1 to M21, SK1 to SK8 and WA1 to WA15</span>
+                </li>
+              </ul>
 
               <div className="hero-actions">
-                <a href={whatsappLink} className="btn btn-primary btn-lg">
+                <button
+                  type="button"
+                  onClick={() => openBooking()}
+                  className="btn btn-primary btn-lg"
+                >
                   <Calendar className="btn-icon" />
                   <span>Book Now</span>
-                </a>
-                <Link to="/services" className="btn btn-secondary btn-lg">
-                  <span>See Prices and Packages</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openBooking()}
+                  className="btn btn-secondary btn-lg"
+                >
+                  <span>Check Availability</span>
                   <ChevronRight className="btn-icon" />
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -158,35 +190,32 @@ export function HomePage() {
       {/* ----------------------- THE WHY (problem/solution) ----------------------- */}
       <section className="narrative-section">
         <div className="container">
-          <p className="narrative-kicker">Here's the thing about grooming day</p>
+          <p className="narrative-kicker">Gentle doorstep pampering</p>
           <h2 className="pull-line">
             No stressful car rides. No waiting in cages. Just calm, one-on-one
             care in your driveway.
           </h2>
           <p className="narrative-body">
-            Most dogs don't actually hate the groom. They hate the journey.
-            The carrier, the queue of barking dogs, the strangers' hands. So
-            we took the salon out of the building and put it in our van, where
-            the only dog in the room is yours. You carry on with your morning
-            or come and watch. Your dog gets a quiet, private grooming in a
-            space that already smells like home.
+            Most dogs don't actually hate grooming — they hate the noisy journey, crate cages, and frantic salon noise.
+            Bubbles brings a warm, state-of-the-art mobile grooming spa right to your curb.
+            Your dog receives gentle 1-on-1 care with zero waiting around.
           </p>
 
           <div className="van-evidence-row">
             <div className="van-evidence-item">
               <SketchDroplet size={40} style={{ color: 'var(--color-gold)' }} />
-              <h4>Warm hydrobath and gentle natural shampoos</h4>
-              <p>A proper bath, not a quick rinse, with coat conditioning to match.</p>
+              <h4>Warm hydrobath & hypoallergenic shampoos</h4>
+              <p>A deeply soothing bath tailored for sensitive skin and coat textures.</p>
             </div>
             <div className="van-evidence-item">
               <SketchLeaf size={40} style={{ color: 'var(--color-gold)' }} />
-              <h4>Quiet, temperature-controlled space</h4>
-              <p>Low-noise dryers and a calm environment, tuned for nervous pups.</p>
+              <h4>Quiet, temperature-controlled environment</h4>
+              <p>Low-noise dryers and a serene, warm mobile spa designed for nervous dogs.</p>
             </div>
             <div className="van-evidence-item">
               <SketchWaves size={40} style={{ color: 'var(--color-gold)' }} />
-              <h4>Heated water, independent power</h4>
-              <p>Everything a salon has. The van just brings it to your kerb.</p>
+              <h4>Self-powered & climate ready</h4>
+              <p>We supply our own warm water and power — no messy cords plugged into your home.</p>
             </div>
           </div>
         </div>
@@ -195,8 +224,8 @@ export function HomePage() {
       {/* ----------------------------- HOW IT WORKS (3 steps) ----------------------------- */}
       <section className="narrative-section" style={{ background: 'var(--color-sage-soft)', borderRadius: 'var(--radius-xl)' }}>
         <div className="container">
-          <p className="narrative-kicker">Grooming day, made simple</p>
-          <h2>Grooming without the stress (for you or your dog)</h2>
+          <p className="narrative-kicker">Grooming day, made effortless</p>
+          <h2>No cages, no car rides, no stress — just gentle 1-on-1 care</h2>
 
           <div className="journey">
             {howItWorksSteps.map((step, i) => (
@@ -220,10 +249,10 @@ export function HomePage() {
       <section className="narrative-section narrative-section--center">
         <div className="container">
           <p className="narrative-kicker">Clear pricing, no hidden surprises</p>
-          <h2>Transparent pricing, tailored to your dog</h2>
+          <h2>Gentle care, zero hassle: Spa packages tailored for your dog</h2>
           <p className="narrative-body">
-            We price by dog size because a Chihuahua takes less time than a Golden Retriever.
-            What you see is what you pay. No extra muddy surcharges.
+            We price by dog size because every breed needs specialized care and time.
+            What you see is what you pay. No unexpected add-ons or hidden charges.
           </p>
 
           {/* Pricing bento grid */}
@@ -249,10 +278,15 @@ export function HomePage() {
                     </div>
                   ))}
                 </div>
-                <Link to="/booking" className="btn btn-primary btn-sm" style={{ marginTop: '16px', width: '100%', justifyContent: 'center' }}>
+                <button
+                  type="button"
+                  onClick={() => openBooking({ sizeId: size.id })}
+                  className="btn btn-primary btn-sm"
+                  style={{ marginTop: '16px', width: '100%', justifyContent: 'center' }}
+                >
                   <Calendar className="btn-icon" />
                   <span>{size.cta}</span>
-                </Link>
+                </button>
               </div>
             ))}
 
@@ -267,7 +301,7 @@ export function HomePage() {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <SketchStar size={28} style={{ color: 'var(--color-terracotta)' }} />
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Add-ons</h3>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Add-on Luxuries</h3>
               </div>
               <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: '12px' }}>Can be added to any package</p>
               <div style={{ flex: 1 }}>
@@ -278,6 +312,14 @@ export function HomePage() {
                   </div>
                 ))}
               </div>
+              <button
+                type="button"
+                onClick={() => openBooking()}
+                className="btn btn-secondary btn-sm"
+                style={{ marginTop: '16px', width: '100%', justifyContent: 'center' }}
+              >
+                <span>Customize Add-ons in Booking</span>
+              </button>
             </div>
           </div>
         </div>
@@ -290,32 +332,53 @@ export function HomePage() {
             <div className="about-photo-wrapper">
               <img
                 src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?auto=format&fit=crop&w=800&q=80"
-                alt="Sarah, professional mobile dog groomer in Manchester"
+                alt="Sarah, certified mobile dog groomer in Manchester"
               />
               <div className="about-photo-chip">
                 <SketchPaw size={26} />
               </div>
+
+              {/* Trust Badges directly under photo */}
+              <div className="photo-trust-badges">
+                <div className="trust-badge-item">
+                  <Heart size={16} className="trust-icon" />
+                  <span>100+ Happy Pups Cleaned</span>
+                </div>
+                <div className="trust-badge-item">
+                  <StarRating rating={businessInfo.rating} size={13} className="trust-icon" />
+                  <span>Rated in Manchester</span>
+                </div>
+                <div className="trust-badge-item">
+                  <ShieldCheck size={16} className="trust-icon" />
+                  <span>Certified & Insured</span>
+                </div>
+              </div>
             </div>
+
             <div>
               <p className="narrative-kicker">Meet your groomer</p>
-              <h2 style={{ marginBottom: '6px' }}>Hi, I am Sarah</h2>
+              <h2 style={{ marginBottom: '8px' }}>Hi, I'm Sarah!</h2>
 
               <div className="about-quote-box" style={{ marginTop: '16px' }}>
-                "I've been grooming dogs for 7 years, starting after my own rescue Spaniel had a traumatic salon experience. I knew there had to be a better way. So I trained, got insured, bought a van, and started Bubbles. I specialise in nervous and elderly dogs. Patience isn't a bonus, it's the whole point. DBS checked, fully insured, and genuinely obsessed with making dogs feel safe."
+                "Hi, I'm Sarah! As a lifelong dog lover and certified groomer, I started mobile grooming so your pup never has to experience crate anxiety or stressful car rides again."
               </div>
+
+              <p style={{ marginTop: '16px', color: 'var(--color-text-muted)', fontSize: '0.96rem' }}>
+                I specialise in nervous, rescued, and elderly dogs. For me, patience isn't an afterthought — it's the heart of everything I do.
+              </p>
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '20px' }}>
                 <span className="badge badge-sage" style={{ fontSize: '0.82rem' }}>
-                  <SketchCheck size={15} style={{ color: 'var(--color-sage)' }} />
-                  <span>DBS checked</span>
+                  <CheckCircle2 size={15} style={{ color: 'var(--color-sage)' }} />
+                  <span>DBS Checked</span>
                 </span>
                 <span className="badge badge-sage" style={{ fontSize: '0.82rem' }}>
-                  <SketchCheck size={15} style={{ color: 'var(--color-sage)' }} />
-                  <span>Fully insured</span>
+                  <CheckCircle2 size={15} style={{ color: 'var(--color-sage)' }} />
+                  <span>Certified & Fully Insured</span>
                 </span>
                 <span className="badge badge-sage" style={{ fontSize: '0.82rem' }}>
-                  <SketchCheck size={15} style={{ color: 'var(--color-sage)' }} />
-                  <span>7+ years experience</span>
+                  <CheckCircle2 size={15} style={{ color: 'var(--color-sage)' }} />
+                  <span>7+ Years Loving Care</span>
                 </span>
               </div>
             </div>
@@ -326,11 +389,10 @@ export function HomePage() {
       {/* ------------------------------- THE WORK ------------------------------- */}
       <section className="narrative-section">
         <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <p className="narrative-kicker">Our Work</p>
-          <h2>Fresh From The Groom</h2>
+          <p className="narrative-kicker">Our Happy Clients</p>
+          <h2>Fresh From The Doorstep Spa</h2>
           <p className="narrative-body">
-            A few favourite transformations from recent visits. Drag the
-            slider. That is the real deal.
+            A few favourite transformations from recent visits. Drag the slider to see before & after happy coats!
           </p>
 
           <div style={{ maxWidth: '900px', margin: '40px auto 0 auto', width: '100%' }}>
@@ -396,8 +458,8 @@ export function HomePage() {
       {/* --------------------------------- FAQ --------------------------------- */}
       <section className="narrative-section" style={{ background: '#FFFFFF', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)' }}>
         <div className="container">
-          <p className="narrative-kicker">The rest, answered</p>
-          <h2>Everything else you are probably wondering</h2>
+          <p className="narrative-kicker">Got questions?</p>
+          <h2>We've got clear, comforting answers</h2>
           <div style={{ marginTop: '36px' }}>
             <FAQAccordion />
           </div>
@@ -416,17 +478,20 @@ export function HomePage() {
             boxShadow: 'var(--shadow-lg)'
           }}>
             <h2 style={{ color: '#FFFFFF', fontSize: '2.4rem', marginBottom: '16px' }}>
-              Ready When You Are
+              Treat Your Pup to Doorstep Comfort
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.15rem', maxWidth: '580px', margin: '0 auto 32px auto' }}>
-              Message us on WhatsApp with your dog's breed, size, and any worries.
-              We will suggest the best package and find a time that works.
+              Select a date, pick a service package, and let us bring the spa right to your drive.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-              <a href={whatsappLink} className="btn btn-primary btn-lg">
+              <button
+                type="button"
+                onClick={() => openBooking()}
+                className="btn btn-primary btn-lg"
+              >
                 <Calendar className="btn-icon" />
-                <span>Book Now</span>
-              </a>
+                <span>Book Your Visit Now</span>
+              </button>
               <Link to="/contact" className="btn btn-secondary btn-lg" style={{ background: 'rgba(255,255,255,0.15)', color: '#FFFFFF', borderColor: 'transparent' }}>
                 <span>Get in Touch</span>
               </Link>

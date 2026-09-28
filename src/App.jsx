@@ -9,6 +9,10 @@ import { AboutPage } from './pages/AboutPage';
 import { GalleryPage } from './pages/GalleryPage';
 import { ContactPage } from './pages/ContactPage';
 import { BookingPage } from './pages/BookingPage';
+import { RouteErrorFallback } from './components/RouteErrorFallback';
+
+import { BookingProvider } from './booking/BookingContext';
+import { BookingModal } from './booking/BookingModal';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -24,27 +28,30 @@ function ScrollToTop() {
 
 export function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      {/* Outer Green Framing Container (Inspired by UI Reference Framing) */}
-      <div className="app-frame">
-        <Navbar />
+    <BookingProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="app-frame">
+          <Navbar />
 
-        <main style={{ flex: 1 }}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/booking" element={<BookingPage />} />
-          </Routes>
-        </main>
+          <main style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/" element={<HomePage />} errorElement={<RouteErrorFallback />} />
+              <Route path="/services" element={<ServicesPage />} errorElement={<RouteErrorFallback />} />
+              <Route path="/about" element={<AboutPage />} errorElement={<RouteErrorFallback />} />
+              <Route path="/gallery" element={<GalleryPage />} errorElement={<RouteErrorFallback />} />
+              <Route path="/contact" element={<ContactPage />} errorElement={<RouteErrorFallback />} />
+              <Route path="/booking" element={<BookingPage />} errorElement={<RouteErrorFallback />} />
+              <Route path="*" element={<RouteErrorFallback />} />
+            </Routes>
+          </main>
 
-        <Footer />
-        <MobileStickyCTA />
-      </div>
-    </Router>
+          <Footer />
+          <MobileStickyCTA />
+          <BookingModal />
+        </div>
+      </Router>
+    </BookingProvider>
   );
 }
 

@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Calendar } from 'lucide-react';
 import { businessInfo } from '../data/business';
+import { useBooking } from '../booking/BookingContext';
 import logo from '../assets/logo.png';
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { openBooking } = useBooking();
 
   const isActive = (path) => location.pathname === path;
-
-  const whatsappNumber = '44' + businessInfo.phone.replace(/^0/, '');
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi Bubbles! I'd like to book a dog grooming appointment.")}`;
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -50,15 +49,14 @@ export function Navbar() {
           </nav>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => openBooking()}
               className="btn btn-primary btn-sm"
             >
               <Calendar className="btn-icon" />
               <span>Book Now</span>
-            </a>
+            </button>
 
             <button
               className="mobile-menu-btn"
@@ -102,17 +100,18 @@ export function Navbar() {
           </ul>
 
           <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
               className="btn btn-primary"
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                setMobileOpen(false);
+                openBooking();
+              }}
               style={{ width: '100%' }}
             >
               <Calendar className="btn-icon" />
               <span>Book Now</span>
-            </a>
+            </button>
             <a
               href={`tel:${businessInfo.phone}`}
               className="btn btn-secondary"

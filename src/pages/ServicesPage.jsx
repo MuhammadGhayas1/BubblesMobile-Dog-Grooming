@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { CheckCircle2, Sparkles, Clock, Calendar, ArrowRight, Star } from 'lucide-react';
+import { CheckCircle2, Sparkles, Clock, Calendar, Star } from 'lucide-react';
 import { servicesData, addonUpgrades } from '../data/services';
 import { FAQAccordion } from '../components/FAQAccordion';
+import { useBooking } from '../booking/BookingContext';
 
 export function ServicesPage() {
+  const { openBooking } = useBooking();
+
   return (
     <div className="section">
       <div className="container">
@@ -13,9 +15,9 @@ export function ServicesPage() {
           <div className="badge badge-sage" style={{ marginBottom: '12px' }}>
             <span>MOBILE SALON MENU</span>
           </div>
-          <h1>Services & Clear Pricing</h1>
+          <h1>Gentle care, zero hassle: Spa packages tailored for your dog</h1>
           <p>
-            All treatments are delivered in our state-of-the-art mobile grooming unit right outside your front door.
+            Treat your dog to a stress-free spa day right outside your front door.
           </p>
         </div>
 
@@ -77,10 +79,15 @@ export function ServicesPage() {
                   <div style={{ fontFamily: 'var(--font-heading)', fontSize: '2.2rem', fontWeight: 800, color: 'var(--color-forest)' }}>
                     {service.price}
                   </div>
-                  <Link to={`/booking?service=${service.id}`} className="btn btn-primary" style={{ width: '100%' }}>
+                  <button
+                    type="button"
+                    onClick={() => openBooking(service.id)}
+                    className="btn btn-primary"
+                    style={{ width: '100%' }}
+                  >
                     <Calendar className="btn-icon" />
-                    <span>Book This</span>
-                  </Link>
+                    <span>Book This Package</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -105,10 +112,14 @@ export function ServicesPage() {
                 <h4 style={{ fontSize: '1.2rem', marginBottom: '6px' }}>{addon.name} ({addon.price})</h4>
                 <p style={{ maxWidth: '640px' }}>{addon.description}</p>
               </div>
-              <Link to="/booking" className="btn btn-primary btn-sm">
+              <button
+                type="button"
+                onClick={() => openBooking()}
+                className="btn btn-primary btn-sm"
+              >
                 <Calendar className="btn-icon" />
-                <span>Add to Booking</span>
-              </Link>
+                <span>Add in Booking</span>
+              </button>
             </div>
           ))}
         </div>
